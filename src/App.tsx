@@ -12,6 +12,7 @@ function App() {
       {users?.length}
       <Table
         data={users ?? []}
+        defaultLimit={30}
         columns={[
           {id: 'id', title: 'ID', render: _ => _.id},
           {id: 'firstname', title: 'First name', render: _ => _.firstname},

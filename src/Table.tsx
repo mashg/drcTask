@@ -3,7 +3,9 @@ import {ReactNode, useEffect, useState} from 'react'
 export const Table = ({
   data,
   columns,
+  defaultLimit = 25
 }: {
+  defaultLimit?: number
   data: any[]
   columns: {
     id: string
@@ -17,7 +19,7 @@ export const Table = ({
   const [selectedRows, setSelectedRows] = useState<string[]>([])
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   const [sortedColumn, setSortedColumn] = useState<string | undefined>()
-  const [limit, setLimit] = useState<number>(25)
+  const [limit, setLimit] = useState<number>(defaultLimit)
 
   useEffect(() => {
     setInnerData(data)
@@ -25,6 +27,9 @@ export const Table = ({
 
   return (
     <div>
+      {defaultLimit && ![10, 25, 50, 100, 250, 500, 1000, 2000].includes(defaultLimit) && (
+        <span style={{color: 'red'}}>Invalid limit value {defaultLimit}</span>
+      )}
       <div>
         <input value={searchedId} onChange={e => setSearchedId(e.target.value)}/>
         <button>Search</button>
@@ -55,10 +60,14 @@ export const Table = ({
       <div>
         Limit displayed:
         <select value={limit} onChange={e => setLimit(+e.target.value)}>
-          <option value={100}>10</option>
-          <option value={100}>25</option>
-          <option value={100}>50</option>
+          <option value={10}>10</option>
+          <option value={25}>25</option>
+          <option value={50}>50</option>
           <option value={100}>100</option>
+          <option value={250}>250</option>
+          <option value={500}>500</option>
+          <option value={1000}>100</option>
+          <option value={2000}>2000</option>
         </select>
       </div>
       <br/>
@@ -80,7 +89,7 @@ export const Table = ({
         </thead>
         <tbody>
         {innerData
-          .splice(0, limit)
+          .slice(0, limit)
           .sort((a, b) => {
             if (!sortedColumn) return 0
             return (a as any)[sortedColumn].localeCompare((b as any)[sortedColumn])
