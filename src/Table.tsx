@@ -23,7 +23,7 @@ interface TableProps<T> {
 export const Table = <T extends DataItem>({ data, columns, defaultLimit = 10 }: TableProps<T>) => {
   const [searchedId, setSearchedId] = useState<string>('');
   const [inputValue, setInputValue] = useState<string>('');
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  // const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [sortedColumn, setSortedColumn] = useState<keyof T | ''>('');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [limit, setLimit] = useState<number>(defaultLimit);
